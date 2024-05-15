@@ -10,6 +10,9 @@
 #include <regex>
 #include <sstream>
 #include <string>
+
+#include "log.h"
+
 // Создание TCP-соединения с указанным IP-адресом и портом
 int createConnection(const std::string &ip, int port);
 

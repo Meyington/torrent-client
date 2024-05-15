@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "piece.h"
-#include "torrentfileparser.h"
+#include "torrentfile.h"
 
 struct PendingRequest
 {
@@ -17,8 +17,8 @@ struct PendingRequest
     time_t timestamp; // Временная метка для отслеживания истечения времени ожидания
 };
 
-/**
- * Отвечает за отслеживание всех доступных фрагментов от пиров.
+/*
+ Отвечает за отслеживание всех доступных фрагментов от пиров.
  */
 class PieceManager {
     private:
@@ -29,7 +29,7 @@ class PieceManager {
     std::vector<PendingRequest *> pendingRequests; // Ожидающие запросы на загрузку блоков
     std::ofstream downloadedFile; // Файл, в который происходит запись загруженных данных
     const long pieceLength;              // Размер фрагмента
-    const TorrentFileParser &fileParser; // Парсер торрент-файла
+    const TorrentFile &fileParser;       // Парсер торрент-файла
     const int maximumConnections;        // Максимальное количество соединений
     int piecesDownloadedInInterval = 0; // Количество загруженных фрагментов за интервал времени
     time_t startingTime;                       // Время начала загрузки
@@ -46,7 +46,7 @@ class PieceManager {
     void trackProgress();                      // Отслеживание прогресса загрузки
 
     public:
-    explicit PieceManager(const TorrentFileParser &fileParser, const std::string &downloadPath, int maximumConnections);
+    explicit PieceManager(const TorrentFile &fileParser, const std::string &downloadPath, int maximumConnections);
     ~PieceManager();
     bool isComplete();
     void blockReceived(std::string peerId, int pieceIndex, int blockOffset, std::string data);

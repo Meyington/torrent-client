@@ -1,14 +1,22 @@
-#include <QApplication>
-#include <QIcon>
-
 #include "torrentclientui.h"
+#include <QApplication>
+#include <QDebug>
+#include <QFileInfo>
+#include <QIcon>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QIcon icon(":/logo_rb.PNG");
-    app.setWindowIcon(icon);
-    QApplication::setWindowIcon(QIcon(":/logo_rb.ico"));
+
+    QString iconPath = "/Users/ilushka/TORRENT/torrent-client/logo_rb.png";
+    if (QFileInfo(iconPath).exists())
+    {
+        app.setWindowIcon(QIcon(iconPath));
+    }
+    else
+    {
+        qDebug() << "Иконка не найдена по пути:" << iconPath;
+    }
 
     TorrentClientUI window;
     window.setWindowTitle("Торрент-клиент");

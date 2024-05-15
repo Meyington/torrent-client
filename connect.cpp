@@ -30,7 +30,6 @@ bool setSocketBlocking(int sock, bool blocking)
     return (fcntl(sock, F_SETFL, flags) == 0);
 }
 
-// Создание TCP-соединения с указанным IP-адресом и портом
 int createConnection(const std::string &ip, const int port)
 {
     int sock = 0;

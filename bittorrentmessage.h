@@ -1,6 +1,7 @@
 #ifndef BITTORRENTMESSAGE_H
 #define BITTORRENTMESSAGE_H
 
+#include "log.h"
 #include <cstdint>
 #include <initializer_list>
 #include <ios>
@@ -12,7 +13,7 @@
 #include <sstream>
 #include <string>
 
-// Перечисление для идентификаторов сообщений
+// Стоит ли писать как class enum MessageId, хм
 enum MessageId
 {
     keepAlive = -1,

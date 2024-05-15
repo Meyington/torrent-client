@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>logo_rb.icns</file>
+	<file>logo_rb.ico</file>
+	<file>logo_rb.png</file>
+    </qresource>
+</RCC>

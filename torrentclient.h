@@ -4,6 +4,7 @@
 #include "SharedQueue.h"
 #include "peerconnection.h"
 #include "peerretriever.h"
+
 #include <string>
 
 class TorrentClient {

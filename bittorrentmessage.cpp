@@ -1,4 +1,5 @@
 #include "bittorrentmessage.h"
+#include "log.h"
 #include <sstream>
 
 // Конструктор класса BitTorrentMessage
@@ -14,7 +15,7 @@ std::string BitTorrentMessage::toString()
     char *messageLengthAddr = (char *)&messageLength;
     std::string messageLengthStr;
     // Байты добавляются в обратном порядке, предполагая,
-    // что данные хранятся в локальном порядке little-endian(если реверснуть, то big-endian)
+    // что данные хранятся в локальном порядке little-endian (нам нужен big-endian)
     for (int i = 0; i < 4; ++i)
     {
         messageLengthStr.push_back((char)messageLengthAddr[3 - i]);

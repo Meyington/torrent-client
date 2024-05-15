@@ -8,24 +8,25 @@
 
 template <typename T> class SharedQueue {
     public:
-    SharedQueue();  // Конструктор класса.
-    ~SharedQueue(); // Деструктор класса.
+    SharedQueue();  // Конструктор класса
+    ~SharedQueue(); // Деструктор класса
 
-    T &front();     // Возвращает ссылку на элемент в начале очереди.
-    T &pop_front(); // Удаляет и возвращает элемент в начале очереди.
+    T &front();     // Возвращает ссылку на элемент в начале очереди
+    T &pop_front(); // Удаляет и возвращает элемент в начале очереди
 
-    void push_back(const T &item); // Добавляет элемент в конец очереди.
-    void push_back(T &&item);      // Добавляет rvalue элемент в конец очереди.
-    void clear();                  // Очищает очередь.
+    void push_back(const T &item); // Добавляет элемент в конец очереди
+    void push_back(T &&item);      // Добавляет rvalue элемент в конец очереди
+    void clear();                  // Очищает очередь
 
-    int size();                    // Возвращает количество элементов в очереди.
+    int size();                    // Возвращает количество элементов в очереди
     bool empty();                  // Проверяет, пуста ли очередь.
 
     private:
     std::deque<T> queue_;          // Очередь элементов.
-    std::mutex mutex_;             // Мьютекс для обеспечения потокобезопасности.
-    std::condition_variable cond_; // Условная переменная для синхронизации потоков.
+    std::mutex mutex_;             // Мьютекс для обеспечения потокобезопасности
+    std::condition_variable cond_; // Условная переменная для синхронизации потоков
 };
+
 template <typename T> SharedQueue<T>::SharedQueue() = default;
 
 template <typename T> SharedQueue<T>::~SharedQueue() = default;

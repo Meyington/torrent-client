@@ -14,9 +14,7 @@
 #define PROGRESS_BAR_WIDTH 40       // Ширина полосы прогресса
 #define PROGRESS_DISPLAY_INTERVAL 1 // Интервал отображения прогресса (0.5 секунд)
 
-PieceManager::PieceManager(const TorrentFileParser &fileParser,
-                           const std::string &downloadPath,
-                           const int maximumConnections)
+PieceManager::PieceManager(const TorrentFile &fileParser, const std::string &downloadPath, const int maximumConnections)
     : fileParser(fileParser), maximumConnections(maximumConnections), pieceLength(fileParser.getPieceLength())
 {
     missingPieces = initiatePieces();

@@ -1,4 +1,3 @@
-#include "bencode.h"
 #include <iostream>
 #include <random>
 #include <thread>
@@ -7,9 +6,9 @@
 #include "peerretriever.h"
 #include "piecemanager.h"
 #include "torrentclient.h"
-#include "torrentfileparser.h"
+#include "torrentfile.h"
 
-#define PORT 8080
+#define PORT 8080              // Лучше ставить от 8000 до 16000
 #define PEER_QUERY_INTERVAL 60 // Интервал обновления списка пиров
 
 TorrentClient::TorrentClient(const int threadNum) : threadNum(threadNum)
@@ -30,13 +29,32 @@ TorrentClient::~TorrentClient() = default;
 void TorrentClient::downloadFile(const std::string &torrentFilePath, const std::string &downloadDirectory)
 {
     // Парсинг торрент-файла
-    TorrentFileParser torrentFileParser(torrentFilePath);
-    std::string announceUrl = torrentFileParser.getAnnounce();
-    long fileSize = torrentFileParser.getFileSize();
-    const std::string infoHash = torrentFileParser.getInfoHash();
-    std::string filename = torrentFileParser.getFileName();
+    // explicit TorrentFile(const std::string &filePath); // Конструктор класса
+    // long getFileSize() const;    // Получить размер файла из торрент-файла
+    // long getPieceLength() const; // Получить размер куска файла из торрент-файла
+    // std::string getFileName() const; // Получить имя файла из торрент-файла
+    // std::string getAnnounce() const; // Получить адрес трекера из торрент-файла
+    // std::shared_ptr<BItem> get(std::string key) const; // Получить элемент по ключу из торрент-файла
+    // std::string getInfoHash() const;                   // Получить хеш информации о файле
+    // std::vector<std::string> splitPieceHashes() const; // Разделить хеши кусков файла
+    // std::string getComment() const; // Получить комментарий к торрент-файлу
+    // std::string getCreatedBy() const; // Получить информацию о создателе торрент-файла
+    // std::string getCreationDate() const; // Получить дату создания торрент-файла
+    // std::vector<std::vector<std::string>> getAnnounceList() const; // Получить список адресов трекеров из
+    // торрент-файла
+
+    TorrentFile torrentFile(torrentFilePath);
+    std::string announceUrl = torrentFile.getAnnounce();
+    std::vector<std::vector<std::string>> announceList = torrentFile.getAnnounceList(); // Необязательно
+    std::string сreationDate = torrentFile.getCreationDate();                           // Необязательно
+    std::string comment = torrentFile.getComment();                                     // Необязательно
+    std::string createdBy = torrentFile.getCreatedBy();                                 // Необязательно
+    long fileSize = torrentFile.getFileSize();
+
+    const std::string infoHash = torrentFile.getInfoHash();
+    std::string filename = torrentFile.getFileName();
     std::string downloadPath = downloadDirectory + filename;
-    PieceManager pieceManager(torrentFileParser, downloadPath, threadNum);
+    PieceManager pieceManager(torrentFile, downloadPath, threadNum);
 
     // Инициализация соединений
     for (int i = 0; i < threadNum; i++)

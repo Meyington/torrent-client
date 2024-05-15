@@ -1,4 +1,7 @@
+#include <regex>
+
 #include "bencode.h"
+#include "log.h"
 
 BItemVisitor::BItemVisitor() = default;
 BItemVisitor::~BItemVisitor() = default;
