@@ -31,7 +31,7 @@ TorrentClientUI::TorrentClientUI(QWidget *parent) : QWidget(parent)
 
     // Кнопка для выбора директории загрузки
     QPushButton *chooseDownloadDirButton = new QPushButton(this);
-    chooseDownloadDirButton->setText("Выбрать папку");
+    chooseDownloadDirButton->setText("Выбрать директорию");
     connect(chooseDownloadDirButton, &QPushButton::clicked, this, &TorrentClientUI::chooseDownloadDirectory);
 
     // Кнопка для начала загрузки торрент-файла
@@ -152,7 +152,7 @@ void TorrentClientUI::downloadTorrent()
 void TorrentClientUI::chooseDownloadDirectory()
 {
     // Открыть диалоговое окно для выбора директории загрузки
-    QString directory = QFileDialog::getExistingDirectory(this, "Выберите папку загрузки", QDir::homePath());
+    QString directory = QFileDialog::getExistingDirectory(this, "Выберите директорию загрузки", QDir::homePath());
 
     // Если пользователь выбрал директорию, обновить поле ввода
     if (!directory.isEmpty())
