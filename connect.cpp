@@ -76,7 +76,7 @@ int createConnection(const std::string &ip, const int port)
             if (!setSocketBlocking(sock, true))
             {
                 throw std::runtime_error("Произошла ошибка при установке сокета " + std::to_string(sock) +
-                                         " в режим BLOCK");
+                                         "в режим BLOCK");
             }
             return sock;
         }

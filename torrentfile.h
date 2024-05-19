@@ -24,7 +24,7 @@ class TorrentFile {
     std::string getCreationDate() const; // Получить дату создания торрент-файла
     std::vector<std::vector<std::string>> getAnnounceList() const; // Получить список адресов трекеров из торрент-файла
 
-    // Объявляем функцию вывода как friend класса TorrentFile
+    // Объявляем функцию вывода как друга
     friend std::ostream &operator<<(std::ostream &os, const TorrentFile &torrentFile)
     {
         os << "File Name: " << torrentFile.getFileName() << std::endl;

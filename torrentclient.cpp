@@ -14,7 +14,6 @@
 TorrentClient::TorrentClient(const int threadNum) : threadNum(threadNum)
 {
     peerId = "-UT2021-";
-    // Генерация 12 случайных чисел для формирования уникального peerId
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(1, 9);
@@ -28,20 +27,6 @@ TorrentClient::~TorrentClient() = default;
 
 void TorrentClient::downloadFile(const std::string &torrentFilePath, const std::string &downloadDirectory)
 {
-    // Парсинг торрент-файла
-    // explicit TorrentFile(const std::string &filePath); // Конструктор класса
-    // long getFileSize() const;    // Получить размер файла из торрент-файла
-    // long getPieceLength() const; // Получить размер куска файла из торрент-файла
-    // std::string getFileName() const; // Получить имя файла из торрент-файла
-    // std::string getAnnounce() const; // Получить адрес трекера из торрент-файла
-    // std::shared_ptr<BItem> get(std::string key) const; // Получить элемент по ключу из торрент-файла
-    // std::string getInfoHash() const;                   // Получить хеш информации о файле
-    // std::vector<std::string> splitPieceHashes() const; // Разделить хеши кусков файла
-    // std::string getComment() const; // Получить комментарий к торрент-файлу
-    // std::string getCreatedBy() const; // Получить информацию о создателе торрент-файла
-    // std::string getCreationDate() const; // Получить дату создания торрент-файла
-    // std::vector<std::vector<std::string>> getAnnounceList() const; // Получить список адресов трекеров из
-    // торрент-файла
 
     TorrentFile torrentFile(torrentFilePath);
     std::string announceUrl = torrentFile.getAnnounce();

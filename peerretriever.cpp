@@ -9,16 +9,8 @@
 
 #include "peerretriever.h"
 #include "utils.h"
-#define TRACKER_TIMEOUT 15000 // Определяет тайм-аут для трекера в миллисекундах.
+#define TRACKER_TIMEOUT 15000 // Определяет тайм-аут для трекера в миллисекундах
 
-/*
- Конструктор класса PeerRetriever. Принимает URL, указанный в значении announce в файле Torrent,
- хэш информации о файле и номер порта.
- announceURL: HTTP-URL трекера.
- infoHash: хэш информации о файле Torrent.
- port: TCP-порт, на котором слушает данный клиент.
- fileSize: размер файла для загрузки в байтах.
- */
 PeerRetriever::PeerRetriever(
     std::string peerId, std::string announceUrl, std::string infoHash, int port, const unsigned long fileSize)
     : fileSize(fileSize)
@@ -30,19 +22,6 @@ PeerRetriever::PeerRetriever(
     this->port = port;
 }
 
-/*
-Получает список пиров по URL, указанному в свойстве 'announce'.
- Список параметров и их описания следующие
- (найдено на этой странице https://markuseliasson.se/article/bittorrent-in-python/):
- - info_hash: SHA1-хэш словаря info, найденного в .torrent.
- - peer_id: уникальный идентификатор, сгенерированный для этого клиента.
- - uploaded: общее количество загруженных байтов.
- - downloaded: общее количество загруженных байтов.
- - left: количество оставшихся для загрузки байтов для этого клиента.
- - port: TCP-порт, на котором слушает данный клиент.
- - compact: принимает ли клиент упакованный список пиров или нет.
- return вектор, содержащий информацию обо всех пирах.
- */
 std::vector<Peer *> PeerRetriever::retrievePeers(unsigned long bytesDownloaded)
 {
     // Формирует строку с информацией о параметрах запроса.
@@ -82,11 +61,6 @@ std::vector<Peer *> PeerRetriever::retrievePeers(unsigned long bytesDownloaded)
     }
 }
 
-/*
- Декодирует ответ трекера и возвращает список пиров.
- param response: ответ от трекера в виде строки.
- return вектор, содержащий информацию обо всех пирах.
- */
 std::vector<Peer *> PeerRetriever::decodeResponse(std::string response)
 {
     // декодирует
@@ -95,13 +69,15 @@ std::vector<Peer *> PeerRetriever::decodeResponse(std::string response)
     // Проверяет, что ответ является словарем.
     std::shared_ptr<BDictionary> responseDict = std::dynamic_pointer_cast<BDictionary>(decodedResponse);
     if (!responseDict)
+    {
         throw std::runtime_error("Response returned by the tracker is not in the correct format. [Not a dictionary]");
-
+    }
     // Получает значение 'peers' из словаря.
     std::shared_ptr<BItem> peersValue = responseDict->getValue("peers");
     if (!peersValue)
+    {
         throw std::runtime_error("Response returned by the tracker is not in the correct format. ['peers' not found]");
-
+    }
     // Инициализирует вектор для хранения пиров.
     std::vector<Peer *> peers;
 
@@ -114,9 +90,10 @@ std::vector<Peer *> PeerRetriever::decodeResponse(std::string response)
 
         // Проверяет целостность данных.
         if (peersString.length() % peerInfoSize != 0)
+        {
             throw std::runtime_error(
                 "Received malformed 'peers' from tracker. ['peers' length needs to be divisible by 6]");
-
+        }
         // Извлекает IP-адреса и порты каждого пира из компактного представления.
         const int peerNum = peersString.length() / peerInfoSize;
         for (int i = 0; i < peerNum; i++)
@@ -162,7 +139,6 @@ std::vector<Peer *> PeerRetriever::decodeResponse(std::string response)
     }
     else
     {
-        // В случае некорректного формата ответа выбрасывает исключение.
         throw std::runtime_error(
             "Response returned by the tracker is not in the correct format. ['peers' has the wrong type]");
     }

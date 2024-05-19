@@ -30,13 +30,19 @@ PieceManager::PieceManager(const TorrentFile &fileParser, const std::string &dow
 PieceManager::~PieceManager()
 {
     for (Piece *piece : missingPieces)
+    {
         delete piece;
+    }
 
     for (Piece *piece : ongoingPieces)
+    {
         delete piece;
+    }
 
     for (PendingRequest *pending : pendingRequests)
+    {
         delete pending;
+    }
 
     downloadedFile.close();
 }
@@ -71,7 +77,9 @@ std::vector<Piece *> PieceManager::initiatePieces()
             block->offset = offset * BLOCK_SIZE;
             int blockSize = BLOCK_SIZE;
             if (i == totalPieces - 1 && offset == blockCount - 1)
+            {
                 blockSize = remLength % BLOCK_SIZE;
+            }
             block->length = blockSize;
             blocks.push_back(block);
         }
@@ -107,7 +115,7 @@ void PieceManager::updatePeer(const std::string &peerId, int index)
     else
     {
         lock.unlock();
-        throw std::runtime_error("Connection has not been established with peer " + peerId);
+        throw std::runtime_error("Не соединился с " + peerId);
     }
 }
 
@@ -125,8 +133,7 @@ void PieceManager::removePeer(const std::string &peerId)
     else
     {
         lock.unlock();
-        throw std::runtime_error("Attempting to remove a peer " + peerId +
-                                 " with whom a connection has not been established.");
+        throw std::runtime_error("Удаление пира " + peerId + " коннект не настреон.");
     }
 }
 
@@ -252,7 +259,7 @@ void PieceManager::blockReceived(std::string peerId, int pieceIndex, int blockOf
     }
     lock.unlock();
     if (!targetPiece)
-        throw std::runtime_error("Received Block does not belong to any ongoing Piece.");
+        throw std::runtime_error("Отстуствие куска");
 
     targetPiece->blockReceived(blockOffset, std::move(data));
     if (targetPiece->isComplete())
@@ -315,7 +322,7 @@ void PieceManager::displayProgressBar()
 
     double timePerPiece = (double)PROGRESS_DISPLAY_INTERVAL / (double)piecesDownloadedInInterval;
     long remainingTime = ceil(timePerPiece * (totalPieces - downloadedPieces));
-    info << "ETA: " << formatTime(remainingTime) << "]";
+    info << "ВРЕМЯ: " << formatTime(remainingTime) << "]";
 
     double progress = (double)downloadedPieces / (double)totalPieces;
     int pos = PROGRESS_BAR_WIDTH * progress;
@@ -323,11 +330,17 @@ void PieceManager::displayProgressBar()
     for (int i = 0; i < PROGRESS_BAR_WIDTH; i++)
     {
         if (i < pos)
+        {
             info << "=";
+        }
         else if (i == pos)
+        {
             info << ">";
+        }
         else
+        {
             info << " ";
+        }
     }
     info << "] ";
     info << std::to_string(downloadedPieces) + "/" + std::to_string(totalPieces) + " ";
@@ -341,5 +354,7 @@ void PieceManager::displayProgressBar()
     std::cout.flush();
     lock.unlock();
     if (isComplete())
+    {
         std::cout << std::endl;
+    }
 }

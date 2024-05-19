@@ -2,6 +2,7 @@
 #define SHAREDQUEUE_H
 
 #include <condition_variable>
+#include <iostream>
 #include <mutex>
 #include <ostream>
 #include <queue>
@@ -27,7 +28,9 @@ template <typename T> class SharedQueue {
     std::condition_variable cond_; // Условная переменная для синхронизации потоков
 };
 
-template <typename T> SharedQueue<T>::SharedQueue() = default;
+template <typename T> SharedQueue<T>::SharedQueue()
+{
+}
 
 template <typename T> SharedQueue<T>::~SharedQueue() = default;
 
@@ -58,17 +61,16 @@ template <typename T> void SharedQueue<T>::push_back(const T &item)
     std::unique_lock<std::mutex> mlock(mutex_);
     queue_.push_back(item);
     mlock.unlock();
-    cond_.notify_one(); // notify one waiting thread
+    cond_.notify_one();
 }
 
 template <typename T> void SharedQueue<T>::push_back(T &&item)
 {
     std::unique_lock<std::mutex> mlock(mutex_);
     queue_.push_back(std::move(item));
-    mlock.unlock();     // unlock before notification to minimize mutex con
-    cond_.notify_one(); // notify one waiting thread
+    mlock.unlock();
+    cond_.notify_one();
 }
-
 template <typename T> int SharedQueue<T>::size()
 {
     std::unique_lock<std::mutex> mlock(mutex_);

@@ -155,9 +155,7 @@ std::string TorrentFile::getCreationDate() const
 
     long creationDate = std::dynamic_pointer_cast<BInteger>(creationDateItem)->value(); // Получение даты создания
     // std::string formatTime(long seconds)
-
-    std::cout << creationDate;
-    return "Заглушка строки с датой создания"; // Возврат строки с датой создания
+    return "Заглушка с датой создания"; // Возврат строки с датой создания
 }
 
 // Получить список адресов трекеров из торрент-файла

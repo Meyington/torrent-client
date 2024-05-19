@@ -8,14 +8,14 @@
 #include <unistd.h>
 #include <utility>
 
-#include "connect.h" // Включение заголовочного файла для соединения.
-#include "peerconnection.h" // Включение заголовочного файла для соединения с пирами.
-#include "utils.h"          // Включение загоеловочного файла утилит.
+#include "connect.h" // Включение заголовочного файла для соединения
+#include "peerconnection.h" // Включение заголовочного файла для соединения с пирами
+#include "utils.h" // Включение загоеловочного файла утилит
 
-#define INFO_HASH_STARTING_POS 28 // Начальная позиция хэша информации в сообщении рукопожатия.
-#define PEER_ID_STARTING_POS 48 // Начальная позиция идентификатора пира в сообщении рукопожатия.
-#define HASH_LEN 20             // Длина хэша в байтах.
-#define DUMMY_PEER_IP "0.0.0.0" // Фиктивный IP-адрес для проверки.
+#define INFO_HASH_STARTING_POS 28 // Начальная позиция хэша информации в сообщении рукопожатия
+#define PEER_ID_STARTING_POS 48 // Начальная позиция идентификатора пира в сообщении рукопожатия
+#define HASH_LEN 20             // Длина хэша в байтах
+#define DUMMY_PEER_IP "0.0.0.0" // Фиктивный IP-адрес для проверки
 
 PeerConnection::PeerConnection(SharedQueue<Peer *> *queue,
                                std::string clientId,

@@ -21,14 +21,18 @@ Piece::Piece(int index, std::vector<Block *> blocks, std::string hashValue)
 Piece::~Piece()
 {
     for (Block *block : blocks)
+    {
         delete block;
+    }
 }
 
 // Сбрасывает состояние всех блоков фрагмента на Missing
 void Piece::reset()
 {
     for (Block *block : blocks)
+    {
         block->status = Missing;
+    }
 }
 
 // Возвращает следующий блок для загрузки (состояние блока меняется на Pending)

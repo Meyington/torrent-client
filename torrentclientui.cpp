@@ -15,8 +15,7 @@
 
 TorrentClientUI::TorrentClientUI(QWidget *parent) : QWidget(parent)
 {
-    // Создаем экземпляр TorrentClient
-    // Создаем поле для ввода пути к .torrent файлу
+    // Создаем  TorrentClient
     torrentFilePathLineEdit = new QLineEdit(this);
     torrentFilePathLineEdit->setPlaceholderText("Путь к .torrent файлу");
 
@@ -79,6 +78,7 @@ TorrentClientUI::TorrentClientUI(QWidget *parent) : QWidget(parent)
         switch (type)
         {
         case QtDebugMsg:
+            
         case QtInfoMsg:
         case QtWarningMsg:
         case QtCriticalMsg:
